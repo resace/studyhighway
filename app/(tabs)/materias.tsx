@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal, TextInput, Alert, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Plus, Search, Eye, EyeOff, Settings, Play, Pause, Square, Clock, BookOpen, Target, Trash2, Edit3, ChevronUp, ChevronDown, Minimize2, Maximize2 } from 'lucide-react-native';
+import { Plus, Search, Play, Pause, Square, Clock, BookOpen, Target, Trash2, Edit3, Minimize2, Maximize2 } from 'lucide-react-native';
 
 const { height: screenHeight } = Dimensions.get('window');
 
@@ -377,7 +377,7 @@ export default function MateriasScreen() {
   };
 
   const editSubject = (subject: Subject) => {
-    setEditingSubject(subject);
+    setEditingSubject({ ...subject });
     setShowEditSubjectModal(true);
   };
 
@@ -397,7 +397,7 @@ export default function MateriasScreen() {
 
   const editTopic = (subject: Subject, topic: Topic) => {
     setSelectedSubject(subject);
-    setEditingTopic(topic);
+    setEditingTopic({ ...topic });
     setShowEditTopicModal(true);
   };
 

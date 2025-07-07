@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Play, Pause, Square, Clock, Settings } from 'lucide-react-native';
+import { Play, Pause, Square, Clock } from 'lucide-react-native';
 
 interface DailyGoal {
   id: string;
@@ -9,22 +9,15 @@ interface DailyGoal {
   currentMinutes: number;
   status: 'not-started' | 'in-progress' | 'paused' | 'completed';
   isRunning: boolean;
-  pomodoroSettings?: {
-    workMinutes: number;
-    breakMinutes: number;
-    longBreakMinutes: number;
-    cyclesBeforeLongBreak: number;
-  };
 }
 
 interface DailyGoalCardProps {
   goal: DailyGoal;
   onControl: (goalId: string, action: 'start' | 'pause' | 'stop') => void;
-  onPomodoroSettings?: (goalId: string) => void;
   formatTime: (minutes: number) => string;
 }
 
-export function DailyGoalCard({ goal, onControl, onPomodoroSettings, formatTime }: DailyGoalCardProps) {
+export function DailyGoalCard({ goal, onControl, formatTime }: DailyGoalCardProps) {
   const getCardStyle = () => {
     switch (goal.status) {
       case 'completed':
@@ -58,24 +51,8 @@ export function DailyGoalCard({ goal, onControl, onPomodoroSettings, formatTime 
               {goal.status === 'completed' ? 'Concluída!' : getRemainingTime()}
             </Text>
           </View>
-          {onPomodoroSettings && (
-            <TouchableOpacity
-              style={styles.settingsButton}
-              onPress={() => onPomodoroSettings(goal.id)}
-            >
-              <Settings size={16} color="#a0aec0" />
-            </TouchableOpacity>
-          )}
         </View>
       </View>
-
-      {goal.pomodoroSettings && (
-        <View style={styles.pomodoroInfo}>
-          <Text style={styles.pomodoroText}>
-            Pomodoro: {goal.pomodoroSettings.workMinutes}min trabalho / {goal.pomodoroSettings.breakMinutes}min pausa
-          </Text>
-        </View>
-      )}
 
       <View style={styles.progressContainer}>
         <View style={styles.progressBar}>
@@ -172,20 +149,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginLeft: 4,
     fontWeight: '600',
-  },
-  settingsButton: {
-    padding: 4,
-  },
-  pomodoroInfo: {
-    backgroundColor: '#1a202c',
-    borderRadius: 8,
-    padding: 8,
-    marginBottom: 12,
-  },
-  pomodoroText: {
-    color: '#a0aec0',
-    fontSize: 12,
-    textAlign: 'center',
   },
   progressContainer: {
     marginBottom: 16,
